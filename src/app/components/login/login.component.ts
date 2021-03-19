@@ -9,18 +9,7 @@ import { DireccionesServiceService } from 'src/app/services/direcciones-service.
 import Swal from 'sweetalert2';
 import { Response } from 'src/app/models/Api/Response';
 import { environment } from 'src/environments/environment';
-
-export const MY_DATE_FORMATS = {
-  parse: {
-    dateInput: 'DD-MMMM-yyyy',
-  },
-  display: {
-    dateInput: 'DD-MMM-yyyy',
-    monthYearLabel: 'DD-MMM-yyyy',
-    dateA11yLabel: 'DD-MMM-yyyy',
-    monthYearA11yLabel: 'DD-MMM-yyyy',
-  },
-};
+import { MY_DATE_FORMATS } from 'src/app/Date_formats/formato';
 
 @Component({
   selector: 'app-login',
@@ -48,14 +37,13 @@ export class LoginComponent implements OnInit {
   //#region  Propiedades
   form: FormGroup;
   direccionesFiltradas: Observable<Direccion[]>;
-
   direcciones: Array<Direccion> = [];
   minLength = 2;
   //#endregion
 
   //#endregion Métodos
   ngOnInit(): void {
-
+    console.log(this.form.get('nombre'));
     this.cargarDirecciones();
     this.direccionesFiltradas = this.form.get('direccion').valueChanges.pipe(
       startWith(),
@@ -69,13 +57,11 @@ export class LoginComponent implements OnInit {
       mail: ['', [Validators.required, Validators.email]],
       telefono: ['', [Validators.required]],
       fecha: [Date.now, [Validators.required]],
-      direccion: [new Direccion(),[Validators.required]]
+      direccion: [null,[Validators.required]]
     });
   }
   //Evento del registro
   registro(event: Event):void{
-    console.log(this.form.get('fecha').value);
-
     event.preventDefault();
     if (this.form.invalid){
       this.form.markAllAsTouched();
@@ -94,9 +80,9 @@ export class LoginComponent implements OnInit {
   }
   //Da formaro a la opción del autocomplete
   getNombreCompleto(direccion: Direccion){
-    return typeof  direccion.pais === 'undefined'? '' : `${direccion.ciudad} - ${direccion.entidad} - ${direccion.pais}`;
+    return direccion === null? '' : `${direccion.ciudad} - ${direccion.entidad} - ${direccion.pais}`;
   }
-
+  //Consulta el método del Api para obtener las direcciones de la base de datos
   cargarDirecciones(){
     Swal.fire({
       icon:'info',
@@ -124,5 +110,24 @@ export class LoginComponent implements OnInit {
       });
     });
   }
+  //#endregion
+
+  //#region  Get
+  get nombreFiel(){
+    return this.form.get('nombre');
+  }
+  get mailFiel(){
+    return this.form.get('mail');
+  }
+  get telefonoFiel(){
+    return this.form.get('telefono');
+  }
+  get fechaFiel(){
+    return this.form.get('fecha');
+  }
+  get direccionFiel(){
+    return this.form.get('direccion');
+  }
+
   //#endregion
 }
