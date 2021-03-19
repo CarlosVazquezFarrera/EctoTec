@@ -10,32 +10,36 @@
 
 <!-- Formulario -->
 <div>
-    <form   [formGroup]="form"
+    <form   (ngSubmit)="registro($event)" 
+            [formGroup]="form"
             class="border-2 border-grey rounded-lg p-5 mx-24 mt-10">
         <!-- Nombre -->
-        <div>
-            <label class="mr-5 my-5 self-start mb-2 font-medium text-gray-800" for="nombre">Nombre</label>
-            <input class="w-full border-2 border-black outline-none px-2 py-2 border shadow-sm placeholder-gray-500 opacity-50 rounded" 
-                    type="text" id="nombre" name="nombre" placeholder="Nombre" required
-                    formControlName="nombre"/>
+        <div class="mt-2 flex flex-col">
+            <mat-form-field class="example-full-width">
+                <mat-label>Nombre</mat-label>
+                <input matInput  type="text" id="nombre" name="nombre" placeholder="Nombre"
+                formControlName="nombre"/>
+              </mat-form-field>    
         </div>
         <!-- Correo -->
-        <div class="mt-2">
-            <label class="mr-5 my-5 self-start mb-2 font-medium text-gray-800" for="mail">E-Mail</label>
-            <input class="w-full border-2 border-black outline-none px-2 py-2 border shadow-sm placeholder-gray-500 opacity-50 rounded" 
-                    type="email" id="mail" name="mail" placeholder="Emial" required
-                    formControlName="mail"/>
+        <div class="mt-2 flex flex-col">
+            <mat-form-field class="example-full-width">
+                <mat-label>Correo</mat-label>
+                <input matInput  type="email" id="mail" name="mail" placeholder="Emial"
+                formControlName="mail"/>
+              </mat-form-field>    
         </div>
+
         <!-- Teléfono -->
-        <div class="mt-2">
-            <label class="mr-5 my-5 self-start mb-2 font-medium text-gray-800" for="telefono">Teléfono</label>
-            <input class="w-full border-2 border-black outline-none px-2 py-2 border shadow-sm placeholder-gray-500 opacity-50 rounded" 
-                    type="tel" id="telefono" name="telefono" placeholder="Teléfono" required
-                    formControlName="telefono"/>
+        <div class="mt-2 flex flex-col">
+            <mat-form-field class="example-full-width">
+                <mat-label>Teléfono</mat-label>
+                <input matInput type="tel" placeholder="Teléfono"
+                formControlName="telefono"/>
+              </mat-form-field>    
         </div>
         <!-- Fecha -->
         <div class="mt-2 flex flex-col">
-            <label class="mr-5 my-5 self-start mb-2 font-medium text-gray-800" for="fecha">Fecha</label>
             <mat-form-field >
                 <mat-label>Fecha</mat-label>
                 <input class="w-full mr-5 my-5 self-start mb-2 font-medium text-gray-800" matInput [matDatepicker]="dob" formControlName="fecha">
@@ -43,6 +47,24 @@
                 <mat-datepicker #dob></mat-datepicker>
             </mat-form-field> 
         </div>
+        <!-- Direccion -->
+        <div class="mt-2 flex flex-col">
+            <mat-form-field class="example-full-width">
+                <mat-label>Direccion</mat-label>
+                <input type="text"
+                       placeholder="Ciudad-Entidad-Pais"
+                       aria-label="Number"
+                       matInput
+                       formControlName="direccion"
+                       [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+        </div>
+        <button mat-raised-button type="submit">Enviar</button>
     </form>
 </div>
 
