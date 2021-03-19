@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  errorApiMensaje: 'Hubo un error al conectar.',
+  UrlApi: 'http://localhost:60633/api/'
 };
 
 /*

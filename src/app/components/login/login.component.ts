@@ -5,7 +5,10 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { Direccion } from 'src/app/Models/Api/Direccion';
-
+import { DireccionesServiceService } from 'src/app/services/direcciones-service.service';
+import Swal from 'sweetalert2';
+import { Response } from 'src/app/models/Api/Response';
+import { environment } from 'src/environments/environment';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -37,14 +40,13 @@ export const MY_DATE_FORMATS = {
 export class LoginComponent implements OnInit {
 
   //#region Constructor
-  constructor(private formBuilder: FormBuilder){
+  constructor(private formBuilder: FormBuilder, private servicioDirecciones:DireccionesServiceService){
     this.generarFormulario();
   }
   //#endregion
 
   //#region  Propiedades
   form: FormGroup;
-  options: string[] = ['One', 'Two', 'Three'];
   direccionesFiltradas: Observable<Direccion[]>;
 
   direcciones: Array<Direccion> = [];
@@ -54,24 +56,7 @@ export class LoginComponent implements OnInit {
   //#endregion Métodos
   ngOnInit(): void {
 
-    let monterreyUno = new Direccion();
-    monterreyUno.pais = "México";
-    monterreyUno.entidad = "Nuevo Leon";
-    monterreyUno.ciudad = "Monterrey"
-
-    let monterreyDos = new Direccion();
-    monterreyDos.pais = "México";
-    monterreyDos.entidad = "Chiapas";
-    monterreyDos.ciudad = "Monterrey"
-
-    let tuxtla = new Direccion();
-    tuxtla.pais = "México";
-    tuxtla.entidad = "Chiapas";
-    tuxtla.ciudad = "Tuxtla"
-    this.direcciones.push(monterreyUno);
-    this.direcciones.push(monterreyDos);
-    this.direcciones.push(tuxtla);
-
+    this.cargarDirecciones();
     this.direccionesFiltradas = this.form.get('direccion').valueChanges.pipe(
       startWith(),
       map(direccion => this.filtroDireccion(direccion))
@@ -100,7 +85,6 @@ export class LoginComponent implements OnInit {
 
   //Filtro personalizado para la búsqueda
   private filtroDireccion(direccion: string){
-    console.log(direccion);
     if (direccion.length>=3){
       const filterValue = direccion.toLowerCase();
       return this.direcciones.filter(direccion => direccion.ciudad.toLowerCase().includes(filterValue));
@@ -108,10 +92,37 @@ export class LoginComponent implements OnInit {
     else
       return [];
   }
-
+  //Da formaro a la opción del autocomplete
   getNombreCompleto(direccion: Direccion){
-    console.log(direccion.pais);
     return typeof  direccion.pais === 'undefined'? '' : `${direccion.ciudad} - ${direccion.entidad} - ${direccion.pais}`;
+  }
+
+  cargarDirecciones(){
+    Swal.fire({
+      icon:'info',
+      allowOutsideClick: false,
+      text: 'Cargando datos'
+    });
+    Swal.showLoading();
+    this.servicioDirecciones.ObtenerDirecciones().subscribe((responseDirecciones: Response<Array<Direccion>>)=>{
+      if (responseDirecciones.exito){ //Respuesta exitosa del api
+        this.direcciones = responseDirecciones.data;
+        Swal.close();
+      }
+      else{ //Respuesta negativa del api
+        Swal.fire({
+          icon:'warning',
+          allowOutsideClick: false,
+          text: responseDirecciones.mensaje
+        });
+      }
+    }, ()=>{
+      Swal.fire({ //Error inesperado
+        icon:'error',
+        allowOutsideClick: false,
+        text: environment.errorApiMensaje
+      });
+    });
   }
   //#endregion
 }
