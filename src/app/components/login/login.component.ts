@@ -2,7 +2,7 @@ import { LOCALE_ID, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import {Observable} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { Direccion } from 'src/app/Models/Api/Direccion';
 import { DireccionesServiceService } from 'src/app/services/direcciones-service.service';
@@ -11,7 +11,8 @@ import { Response } from 'src/app/models/Api/Response';
 import { environment } from 'src/environments/environment';
 import { MY_DATE_FORMATS } from 'src/app/Date_formats/formato';
 import { DateValidator } from 'src/app/Validator/CustomValidator/DateValidator';
-
+import { ErrorDialogComponent } from 'src/app/components/error-dialog/error-dialog.component'
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -30,7 +31,9 @@ import { DateValidator } from 'src/app/Validator/CustomValidator/DateValidator';
 export class LoginComponent implements OnInit {
 
   //#region Constructor
-  constructor(private formBuilder: FormBuilder, private servicioDirecciones:DireccionesServiceService){
+  constructor(private formBuilder: FormBuilder, 
+    private servicioDirecciones:DireccionesServiceService,
+    private dialog: MatDialog){
     this.generarFormulario();
   }
   //#endregion
@@ -70,6 +73,7 @@ export class LoginComponent implements OnInit {
     event.preventDefault();
     if (this.form.invalid){
       this.form.markAllAsTouched();
+      this.abrirDialog();
       return;
     };
   }
@@ -83,6 +87,15 @@ export class LoginComponent implements OnInit {
     else
       return [];
   }
+  //Abrir Dialogo
+  abrirDialog(){
+    const dialogRef = this.dialog.open(ErrorDialogComponent,{
+      width: '300',
+      disableClose: true,
+      data: this.form
+    });
+  }
+
   //Da formaro a la opción del autocomplete
   getNombreCompleto(direccion: Direccion){
     return direccion === null? '' : `${direccion.ciudad} - ${direccion.entidad} - ${direccion.pais}`;
@@ -116,33 +129,6 @@ export class LoginComponent implements OnInit {
     });
   }
   //#endregion
-
-  //#region  Get
-  get nombreFiel(){
-    return this.form.get('nombre');
-  }
-  get mailFiel(){
-    return this.form.get('mail');
-  }
-  get telefonoFiel(){
-    return this.form.get('telefono');
-  }
-  get fechaFiel(){
-    return this.form.get('fecha');
-  }
-  get direccionFiel(){
-    return this.form.get('direccion');
-  }
-
-  get getFechaActual(){
-    let fecha = new Date(Date.now());
-    return `${fecha.getDay()}-${fecha.getMonth()}-${fecha.getFullYear()}`;
-  }
-
-  get getFechaAnterior(){
-    let fechaAnterior  = new Date(Date.now());
-    fechaAnterior.setFullYear(fechaAnterior.getFullYear()-100);
-    return   `${fechaAnterior.getDay()}-${fechaAnterior.getMonth()}-${fechaAnterior.getFullYear()}`;
-  }
+ 
   //#endregion
 }

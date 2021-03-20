@@ -20,10 +20,6 @@
                 <input matInput  type="text" id="nombre" name="nombre" placeholder="Nombre"
                 formControlName="nombre"/>
               </mat-form-field>
-              <!-- Mensaje de error -->
-              <mat-error *ngIf="nombreFiel.touched && nombreFiel.hasError('required')">
-                    El Nombre es <strong>requerido</strong>
-              </mat-error>
         </div>
         <!-- Correo -->
         <div class="mt-2 flex flex-col">
@@ -32,13 +28,6 @@
                 <input matInput  type="email" id="mail" name="mail" placeholder="Emial"
                 formControlName="mail"/>
               </mat-form-field>    
-                <!-- Mensaje de error -->
-                <mat-error *ngIf="mailFiel.touched && mailFiel.hasError('required')">
-                    El Email es <strong>requerido</strong>
-                </mat-error>
-                <mat-error *ngIf="mailFiel.touched && mailFiel.hasError('email')">
-                    Formato de correo <strong>inválido</strong>
-                </mat-error>
         </div>
 
         <!-- Teléfono -->
@@ -48,12 +37,6 @@
                 <input matInput type="tel" placeholder="Teléfono"
                 formControlName="telefono"/>
               </mat-form-field>    
-              <mat-error *ngIf="telefonoFiel.touched && telefonoFiel.hasError('required')">
-                El teléfono es <strong>requerido</strong>
-            </mat-error>
-            <mat-error *ngIf="telefonoFiel.touched && telefonoFiel.hasError('pattern')">
-                Formato de teléfono <strong>inválido</strong>
-            </mat-error>
         </div>
         <!-- Fecha -->
         <div class="mt-2 flex flex-col">
@@ -63,12 +46,6 @@
                 <mat-datepicker-toggle  matSuffix [for]="dob"></mat-datepicker-toggle>
                 <mat-datepicker #dob></mat-datepicker>
             </mat-form-field> 
-            <mat-error *ngIf="fechaFiel.touched && fechaFiel.hasError('required')">
-                La fecha es <strong>requerida</strong>
-            </mat-error>
-            <mat-error *ngIf="fechaFiel.touched && fechaFiel.hasError('dateValidator')">
-                La fecha debe estar en un rango entre <strong>{{getFechaActual}}</strong> y <strong>{{getFechaAnterior}}</strong>
-            </mat-error>
         </div>
         <!-- Direccion -->
         <div class="mt-2 flex flex-col">
@@ -88,9 +65,6 @@
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
-              <mat-error *ngIf="fechaFiel.touched && fechaFiel.hasError('required')">
-                La dirección es <strong>requerida</strong>
-            </mat-error>
         </div>
         <!-- Botón -->
         <div class="grid justify-items-stretch">

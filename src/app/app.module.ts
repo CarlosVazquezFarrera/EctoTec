@@ -12,15 +12,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HttpClientModule } from '@angular/common/http';
-
-
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { LoginComponent } from './components/login/login.component';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +34,8 @@ import { LoginComponent } from './components/login/login.component';
     ReactiveFormsModule,
     MatButtonModule,
     MatAutocompleteModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

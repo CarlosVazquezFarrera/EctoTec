@@ -1,0 +1,46 @@
+<div class="bg-white rounded-md">
+    <div>  
+        <div class="grid justify-items-stretch">
+            <div class="justify-self-center">
+                <p class="text-center">Se encontraron los siguienres errores en sus datos</p>
+                <ol>
+                    <!-- Errores del nombre-->  
+                    <li>
+                        <span *ngIf="nombreFiel.touched && nombreFiel.hasError('required')">
+                        El Nombre es <strong>requerido</strong></span>
+                    </li>
+                    <!-- Errores del correo -->  
+                    <li>
+                        <span *ngIf="mailFiel.touched && mailFiel.hasError('required')">
+                        El Correo es <strong>requerido</strong></span>
+                    </li>
+                    <li>
+                        <span *ngIf="mailFiel.touched && mailFiel.hasError('mail')">
+                            Formato de correo <strong>inválido</strong></span>
+                    </li>
+                    <!-- Errores del teléfono -->  
+                    <li>
+                        <span *ngIf="telefonoFiel.touched && telefonoFiel.hasError('required')">
+                            El teléfono es <strong>requerido</strong></span>
+                    </li>
+                     <!-- Errores del fecha --> 
+                     <li>
+                        <span *ngIf="fechaFiel.touched && fechaFiel.hasError('required')">
+                            La dirección es <strong>requerida</strong></span>
+                    </li> 
+                    <li>
+                        <span *ngIf="fechaFiel.touched && fechaFiel.hasError('dateValidator')">
+                            La fecha debe estar en un rango entre <strong>{{getFechaActual}}</strong> y <strong>{{getFechaAnterior}}</strong></span>
+                    </li>
+                </ol>
+                <p class="text-center">Por por favor corriga los errores para continuar</p>
+            </div>
+        </div> 
+    </div>
+    <!-- Boton -->
+    <div class="grid justify-items-stretch">
+        <div class="justify-self-center">
+            <button mat-raised-button (click)="Cerrar()" type="submit">Aceptar</button>
+        </div>
+      </div> 
+</div>
