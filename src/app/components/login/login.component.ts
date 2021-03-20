@@ -82,12 +82,13 @@ export class LoginComponent implements OnInit {
   //Evento del registro
   registro(event: Event):void{
     event.preventDefault();
-    this.registrarUsuario()
     if (this.form.invalid){
       this.form.markAllAsTouched();
       this.abrirDialog();
       return;
     };
+
+    this.registrarUsuario()
   }
 
   //Filtro personalizado para la búsqueda

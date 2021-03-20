@@ -1,5 +1,3 @@
-import { Moment } from "moment";
-
 export const MY_DATE_FORMATS = {
     display: {
       dateInput: 'DD-MMM-yyyy',
