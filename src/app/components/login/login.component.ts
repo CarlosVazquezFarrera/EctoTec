@@ -4,7 +4,7 @@ import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/mat
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import { Direccion } from 'src/app/Models/Direccion';
+import { Direccion } from 'src/app/Models/Api/Direccion';
 import { DireccionesServiceService } from 'src/app/services/direcciones-service.service';
 import Swal from 'sweetalert2';
 import { Response } from 'src/app/models/Api/Response';
@@ -20,6 +20,7 @@ import { Moment } from 'moment';
 import * as moment from 'moment';
 import { BasicResponse } from 'src/app/Models/Api/BasicResponse';
 import { Router } from '@angular/router';
+import { MailServiceService } from 'src/app/services/mail-service.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -41,6 +42,7 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, 
     private servicioDirecciones:DireccionesServiceService,
     private servicioUsuario: UsuarioServiceService,
+    private servicioMail: MailServiceService,
     private dialog: MatDialog,
     private router: Router,){
     this.generarFormulario();
@@ -53,6 +55,7 @@ export class LoginComponent implements OnInit {
   direcciones: Array<Direccion> = [];
   minLength = 2;
   regex = /^(\+[0-9])?[-]*(8|9)[ -]*([0-9][ -]*){8} $/;
+  usuario = new Usuario();
 
   //#endregion
 
@@ -141,13 +144,12 @@ export class LoginComponent implements OnInit {
   
 //Ejecuta el método de la api que registra el usuario
   registrarUsuario(){
-    let usuario = new Usuario();
-    usuario.nombre = this.form.get('nombre').value;
-    usuario.mail = this.form.get('mail').value;
-    usuario.telefono = this.form.get('telefono').value;
-    usuario.idCiudad = this.form.get('direccion').value.idPais;
+    this.usuario.nombre = this.form.get('nombre').value;
+    this.usuario.mail = this.form.get('mail').value;
+    this.usuario.telefono = this.form.get('telefono').value;
+    this.usuario.idCiudad = this.form.get('direccion').value.idPais;
     let inputFecha: Moment = this.form.get('fecha').value;
-    usuario.fecha = fixDate(inputFecha.year(), inputFecha.month(), inputFecha.date());
+    this.usuario.fecha = fixDate(inputFecha.year(), inputFecha.month(), inputFecha.date());
     
     Swal.fire({
       icon:'info',
@@ -155,7 +157,7 @@ export class LoginComponent implements OnInit {
       text: 'Registrando usuuario'
     });
     Swal.showLoading();
-    this.servicioUsuario.RegistrarUsuario(usuario).subscribe((responseRegistro: BasicResponse)=>{
+    this.servicioUsuario.RegistrarUsuario(this.usuario).subscribe((responseRegistro: BasicResponse)=>{
       if (responseRegistro.exito){ //Respuesta exitosa del api
         Swal.close();
         this.enviarCorreo();
@@ -177,7 +179,28 @@ export class LoginComponent implements OnInit {
   }
 
   enviarCorreo(){
-    
+    Swal.showLoading();
+    this.servicioMail.enviarMail(this.usuario).subscribe((mailResponse: BasicResponse)=>{
+      if (mailResponse.exito){ //Respuesta exitosa del api
+        Swal.close();
+        localStorage.setItem('usuario', JSON.stringify(this.usuario));
+        localStorage.setItem('direccion', JSON.stringify(this.form.get('direccion').value));
+        this.router.navigateByUrl('completo');
+      }
+      else{ //Respuesta negativa del api
+        Swal.fire({
+          icon:'warning',
+          allowOutsideClick: false,
+          text: mailResponse.mensaje
+        });
+      }
+    }, ()=>{
+      Swal.fire({ //Error inesperado
+        icon:'error',
+        allowOutsideClick: false,
+        text: environment.errorApiMensaje
+      });
+    });
   }
   //#endregion
  

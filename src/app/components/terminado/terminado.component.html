@@ -1,1 +1,21 @@
-<p>terminado works!</p>
+<div>
+    <div class="mx-32 text-lg">
+        <div class="grid justify-items-stretch mt-10">
+            <div class="justify-self-center">
+                <p>Estimado {{Usuario.nombre}}</p>
+                <div>
+                    <p>Hemos recibido sus datos y nos pondremos en contacto con usted en la
+                        brevedad posible. Enviaremos un correo con información a su cuenta: <span class="underline">{{Usuario.mail}}</span>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="grid justify-items-stretch text-right">
+            <div class="justify-self-end">
+                <p>Atte</p>
+                <p class="text-green-400">Green Leaves</p>
+                <p>{{direccion.ciudad}} {{direccion.entidad}} {{getFechaActual}}</p>
+            </div>  
+        </div>
+    </div>
+
+</div>
