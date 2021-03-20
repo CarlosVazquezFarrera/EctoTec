@@ -1,5 +1,5 @@
-export class Response<T>{
-    exito: boolean;
-    mensaje: string;
+import { BaseResponse } from "./BaseResponse";
+
+export class Response<T> extends BaseResponse{
     data: T;
 }

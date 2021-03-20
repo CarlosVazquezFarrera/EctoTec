@@ -23,7 +23,7 @@ export class UsuarioServiceService {
   //#endregion
 
   //#region 
-  ObtenerDirecciones(usuario: Usuario){
+  RegistrarUsuario(usuario: Usuario){
     return this.http.post(`${this.urlApi}RegistrarUsuario`, usuario, httpOptions);
   }
   //#endregion

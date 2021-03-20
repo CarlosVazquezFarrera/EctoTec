@@ -18,6 +18,7 @@ import { Usuario } from 'src/app/Models/Usuario';
 import { Moment } from 'moment';
 
 import * as moment from 'moment';
+import { BasicResponse } from 'src/app/Models/Api/BasicResponse';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -66,7 +67,7 @@ export class LoginComponent implements OnInit {
     this.form = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       mail: ['', [Validators.required, Validators.email]],
-      telefono: ['', [Validators.required], Validators.pattern(this.regex)],
+      telefono: ['', [Validators.required]],
       fecha: [Date.now, [Validators.required]],
       direccion: [null,[Validators.required]]
     },
@@ -142,9 +143,32 @@ export class LoginComponent implements OnInit {
     usuario.telefono = this.form.get('telefono').value;
     usuario.idCiudad = this.form.get('direccion').value.idPais;
     let inputFecha: Moment = this.form.get('fecha').value;
-
-    let fecha = fixDate(inputFecha.year(), inputFecha.month(), inputFecha.date());
-    console.log(fecha);
+    usuario.fecha = fixDate(inputFecha.year(), inputFecha.month(), inputFecha.date());
+    
+    Swal.fire({
+      icon:'info',
+      allowOutsideClick: false,
+      text: 'Cargando datos'
+    });
+    Swal.showLoading();
+    this.servicioUsuario.RegistrarUsuario(usuario).subscribe((responseRegistro: BasicResponse)=>{
+      if (responseRegistro.exito){ //Respuesta exitosa del api
+        Swal.close();
+      }
+      else{ //Respuesta negativa del api
+        Swal.fire({
+          icon:'warning',
+          allowOutsideClick: false,
+          text: responseRegistro.mensaje
+        });
+      }
+    }, ()=>{
+      Swal.fire({ //Error inesperado
+        icon:'error',
+        allowOutsideClick: false,
+        text: environment.errorApiMensaje
+      });
+    });
   }
   //#endregion
  

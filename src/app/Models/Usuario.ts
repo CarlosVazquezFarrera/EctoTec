@@ -3,6 +3,6 @@ export class Usuario{
     nombre: string;
     mail: string;
     telefono:string;
-    fecha: Date;
+    fecha: string;
     idCiudad: number;
 }
