@@ -1,7 +1,6 @@
+import { Moment } from "moment";
+
 export const MY_DATE_FORMATS = {
-    parse: {
-      dateInput: 'DD-MMMM-yyyy',
-    },
     display: {
       dateInput: 'DD-MMM-yyyy',
       monthYearLabel: 'DD-MMM-yyyy',
@@ -9,3 +8,12 @@ export const MY_DATE_FORMATS = {
       monthYearA11yLabel: 'DD-MMM-yyyy',
     },
   };
+
+export function fixDate(year: number, month:number, day:number){
+    month += 1;
+    return `${year}-${CompareDate(month)}-${CompareDate(day)}`;
+}
+
+function CompareDate(number: number):string{
+    return (number <= 9) ? `0${number}`:`${number}`;
+}

@@ -16,9 +16,11 @@ export class DireccionesServiceService {
   urlApi: string;
   //#endregion
 
+  //#region  Métodos
   ObtenerDirecciones(){
     return this.http.get(
       ` ${this.urlApi}ObtenerTodasLasDirecciones`
     );
   }
+  //#endregion
 }

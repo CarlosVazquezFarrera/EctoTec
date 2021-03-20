@@ -59,9 +59,9 @@
                        [matAutocomplete]="auto">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="getNombreCompleto">
                   <mat-option *ngFor="let direccion of direccionesFiltradas | async" [value]="direccion">
-                    <span> {{direccion.pais}}, </span>
                     <span> {{direccion.entidad}}, </span>
-                    <span> {{direccion.ciudad}}</span>
+                    <span> {{direccion.ciudad}}, </span>
+                    <span> {{direccion.pais}} </span>
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>

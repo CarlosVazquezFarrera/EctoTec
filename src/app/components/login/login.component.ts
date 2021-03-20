@@ -2,17 +2,22 @@ import { LOCALE_ID, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import {from, Observable} from 'rxjs';
+import { Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import { Direccion } from 'src/app/Models/Api/Direccion';
+import { Direccion } from 'src/app/Models/Direccion';
 import { DireccionesServiceService } from 'src/app/services/direcciones-service.service';
 import Swal from 'sweetalert2';
 import { Response } from 'src/app/models/Api/Response';
 import { environment } from 'src/environments/environment';
-import { MY_DATE_FORMATS } from 'src/app/Date_formats/formato';
+import { fixDate, MY_DATE_FORMATS } from 'src/app/Date_formats/formato';
 import { DateValidator } from 'src/app/Validator/CustomValidator/DateValidator';
 import { ErrorDialogComponent } from 'src/app/components/error-dialog/error-dialog.component'
 import { MatDialog } from '@angular/material/dialog';
+import { UsuarioServiceService } from 'src/app/services/usuario-service.service';
+import { Usuario } from 'src/app/Models/Usuario';
+import { Moment } from 'moment';
+
+import * as moment from 'moment';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -33,6 +38,7 @@ export class LoginComponent implements OnInit {
   //#region Constructor
   constructor(private formBuilder: FormBuilder, 
     private servicioDirecciones:DireccionesServiceService,
+    private servicioUsuario: UsuarioServiceService,
     private dialog: MatDialog){
     this.generarFormulario();
   }
@@ -49,7 +55,6 @@ export class LoginComponent implements OnInit {
 
   //#endregion Métodos
   ngOnInit(): void {
-    console.log(this.form.get('nombre'));
     this.cargarDirecciones();
     this.direccionesFiltradas = this.form.get('direccion').valueChanges.pipe(
       startWith(),
@@ -71,6 +76,7 @@ export class LoginComponent implements OnInit {
   //Evento del registro
   registro(event: Event):void{
     event.preventDefault();
+    this.registrarUsuario()
     if (this.form.invalid){
       this.form.markAllAsTouched();
       this.abrirDialog();
@@ -127,6 +133,18 @@ export class LoginComponent implements OnInit {
         text: environment.errorApiMensaje
       });
     });
+  }
+
+  registrarUsuario(){
+    let usuario = new Usuario();
+    usuario.nombre = this.form.get('nombre').value;
+    usuario.mail = this.form.get('mail').value;
+    usuario.telefono = this.form.get('telefono').value;
+    usuario.idCiudad = this.form.get('direccion').value.idPais;
+    let inputFecha: Moment = this.form.get('fecha').value;
+
+    let fecha = fixDate(inputFecha.year(), inputFecha.month(), inputFecha.date());
+    console.log(fecha);
   }
   //#endregion
  
