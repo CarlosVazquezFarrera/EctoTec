@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { Response } from 'src/app/models/Api/Response';
 import { environment } from 'src/environments/environment';
 import { MY_DATE_FORMATS } from 'src/app/Date_formats/formato';
+import { DateValidator } from 'src/app/Validator/CustomValidator/DateValidator';
 
 @Component({
   selector: 'app-login',
@@ -39,6 +40,8 @@ export class LoginComponent implements OnInit {
   direccionesFiltradas: Observable<Direccion[]>;
   direcciones: Array<Direccion> = [];
   minLength = 2;
+  regex = /^(\+[0-9])?[-]*(8|9)[ -]*([0-9][ -]*){8} $/;
+
   //#endregion
 
   //#endregion Métodos
@@ -55,10 +58,12 @@ export class LoginComponent implements OnInit {
     this.form = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       mail: ['', [Validators.required, Validators.email]],
-      telefono: ['', [Validators.required]],
+      telefono: ['', [Validators.required], Validators.pattern(this.regex)],
       fecha: [Date.now, [Validators.required]],
       direccion: [null,[Validators.required]]
-    });
+    },
+    {
+      validators: DateValidator('fecha')});
   }
   //Evento del registro
   registro(event: Event):void{
@@ -129,5 +134,15 @@ export class LoginComponent implements OnInit {
     return this.form.get('direccion');
   }
 
+  get getFechaActual(){
+    let fecha = new Date(Date.now());
+    return `${fecha.getDay()}-${fecha.getMonth()}-${fecha.getFullYear()}`;
+  }
+
+  get getFechaAnterior(){
+    let fechaAnterior  = new Date(Date.now());
+    fechaAnterior.setFullYear(fechaAnterior.getFullYear()-100);
+    return   `${fechaAnterior.getDay()}-${fechaAnterior.getMonth()}-${fechaAnterior.getFullYear()}`;
+  }
   //#endregion
 }

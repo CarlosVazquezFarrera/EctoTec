@@ -66,6 +66,9 @@
             <mat-error *ngIf="fechaFiel.touched && fechaFiel.hasError('required')">
                 La fecha es <strong>requerida</strong>
             </mat-error>
+            <mat-error *ngIf="fechaFiel.touched && fechaFiel.hasError('dateValidator')">
+                La fecha debe estar en un rango entre <strong>{{getFechaActual}}</strong> y <strong>{{getFechaAnterior}}</strong>
+            </mat-error>
         </div>
         <!-- Direccion -->
         <div class="mt-2 flex flex-col">
