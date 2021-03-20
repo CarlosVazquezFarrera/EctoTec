@@ -19,6 +19,7 @@ import { Moment } from 'moment';
 
 import * as moment from 'moment';
 import { BasicResponse } from 'src/app/Models/Api/BasicResponse';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -40,7 +41,8 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, 
     private servicioDirecciones:DireccionesServiceService,
     private servicioUsuario: UsuarioServiceService,
-    private dialog: MatDialog){
+    private dialog: MatDialog,
+    private router: Router,){
     this.generarFormulario();
   }
   //#endregion
@@ -136,6 +138,8 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  
+//Ejecuta el método de la api que registra el usuario
   registrarUsuario(){
     let usuario = new Usuario();
     usuario.nombre = this.form.get('nombre').value;
@@ -148,12 +152,13 @@ export class LoginComponent implements OnInit {
     Swal.fire({
       icon:'info',
       allowOutsideClick: false,
-      text: 'Cargando datos'
+      text: 'Registrando usuuario'
     });
     Swal.showLoading();
     this.servicioUsuario.RegistrarUsuario(usuario).subscribe((responseRegistro: BasicResponse)=>{
       if (responseRegistro.exito){ //Respuesta exitosa del api
         Swal.close();
+        this.enviarCorreo();
       }
       else{ //Respuesta negativa del api
         Swal.fire({
@@ -169,6 +174,10 @@ export class LoginComponent implements OnInit {
         text: environment.errorApiMensaje
       });
     });
+  }
+
+  enviarCorreo(){
+    
   }
   //#endregion
  

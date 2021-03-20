@@ -16,12 +16,14 @@ import {MatDialogModule} from '@angular/material/dialog';
 
 import { LoginComponent } from './components/login/login.component';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
+import { TerminadoComponent } from './components/terminado/terminado.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    TerminadoComponent
   ],
   imports: [
     BrowserModule,
