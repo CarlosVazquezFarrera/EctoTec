@@ -38,4 +38,5 @@ Si llegamos a tener errores con el API debido a que el Url que ya se encuentra e
 ![13](https://user-images.githubusercontent.com/28713740/111892310-e9405b80-89bf-11eb-8aac-0a4ee0f2988b.PNG)
  
 Abrimos el archivo environments.prod.ts y environments.ts y cambiamos el valor de la variable `UrlApi` por el nuevo Url del Api
+
 ![14](https://user-images.githubusercontent.com/28713740/111892397-c5c9e080-89c0-11eb-83ee-b5994fad537b.PNG)
