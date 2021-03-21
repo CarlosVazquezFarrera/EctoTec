@@ -184,8 +184,8 @@ export class LoginComponent implements OnInit {
     this.servicioMail.enviarMail(this.usuario).subscribe((mailResponse: BasicResponse)=>{
       if (mailResponse.exito){ //Respuesta exitosa del api
         Swal.close();
-        localStorage.setItem('usuario', JSON.stringify(this.usuario));
-        localStorage.setItem('direccion', JSON.stringify(this.form.get('direccion').value));
+        sessionStorage.setItem('usuario', JSON.stringify(this.usuario));
+        sessionStorage.setItem('direccion', JSON.stringify(this.form.get('direccion').value));
         this.router.navigateByUrl('completo');
       }
       else{ //Respuesta negativa del api
