@@ -2,6 +2,12 @@
 
 Este proyecto realizado con Angular versión 10 para realizar un cliente web sencillo que consume un servicio web Rest full.
 
+## Imagenes del proyecto 
+![12](https://user-images.githubusercontent.com/28713740/111892643-e2671800-89c2-11eb-965f-d3756f2d3884.PNG)
+
+![15](https://user-images.githubusercontent.com/28713740/111892655-fb6fc900-89c2-11eb-927e-d7b44d180a68.png)
+
+
 ## Clonar el proyecto
 Iniciamos clonando el proyecto, para ello podemos usar cualquiera de las opciones brindadas:
 ```shell
