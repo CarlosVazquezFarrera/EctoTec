@@ -5,7 +5,8 @@ Este proyecto realizado con Angular versión 10 para realizar un cliente web sen
 ## Imagenes del proyecto 
 ![12](https://user-images.githubusercontent.com/28713740/111892643-e2671800-89c2-11eb-965f-d3756f2d3884.PNG)
 
-![15](https://user-images.githubusercontent.com/28713740/111892655-fb6fc900-89c2-11eb-927e-d7b44d180a68.png)
+![16](https://user-images.githubusercontent.com/28713740/111892717-8355d300-89c3-11eb-84f1-a5c3157ad66b.png)
+
 
 
 ## Clonar el proyecto
@@ -47,3 +48,4 @@ Si llegamos a tener errores con el API debido a que el Url que ya se encuentra e
 Abrimos el archivo environments.prod.ts y environments.ts y cambiamos el valor de la variable `UrlApi` por el nuevo Url del Api
 
 ![14](https://user-images.githubusercontent.com/28713740/111892397-c5c9e080-89c0-11eb-83ee-b5994fad537b.PNG)
+
