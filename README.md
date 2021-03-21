@@ -35,6 +35,7 @@ npm serve -o
 ```
 ## Resolver problemas con el api
 Si llegamos a tener errores con el API debido a que el Url que ya se encuentra establecido por defecto no es la misma del servidor en producción, sólo tenemos que cambiarla por la Url actual. Para ello sólo copiamos la Url nueva de la Api, y nos dirigimos a la carpeta  `environments`  del proyecto actual 
+
 ![13](https://user-images.githubusercontent.com/28713740/111892310-e9405b80-89bf-11eb-8aac-0a4ee0f2988b.PNG)
  
 Abrimos el archivo environments.prod.ts y environments.ts y cambiamos el valor de la variable `UrlApi` por el nuevo Url del Api
